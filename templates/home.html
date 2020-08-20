@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block head_style %}
+{% endblock %}
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+{% block main_content %}
+        <main class="page gallery-page">
+        <section class="clean-block clean-gallery dark">
+            <div class="container">
+                <div class="block-heading">
+                    <h2 class="text-info">Gallery</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4 item"><a class="lightbox" href="{% static 'img/scenery/image1.jpg' %}"><img class="img-thumbnail img-fluid image" src="{%static 'img/scenery/image1.jpg' %}"></a></div>
+                    <div class="col-md-6 col-lg-4 item"><a class="lightbox" href="{% static 'img/scenery/image4.jpg' %}"><img class="img-thumbnail img-fluid image" src="{%static 'img/scenery/image4.jpg' %}"></a></div>
+                    <div class="col-md-6 col-lg-4 item"><a class="lightbox" href="{% static 'img/scenery/image6.jpg' %}"><img class="img-thumbnail img-fluid image" src="{%static 'img/scenery/image6.jpg' %}"></a></div>
+                    <div class="col-md-6 col-lg-4 item"><a class="lightbox" href="{% static 'img/scenery/image5.jpg' %}"><img class="img-thumbnail img-fluid image" src="{%static 'img/scenery/image5.jpg' %}"></a></div>
+                    <div class="col-md-6 col-lg-4 item"><a class="lightbox" href="{% static 'img/scenery/image1.jpg' %}"><img class="img-thumbnail img-fluid image" src="{%static 'img/scenery/image1.jpg' %}"></a></div>
+                    <div class="col-md-6 col-lg-4 item"><a class="lightbox" href="{% static 'img/scenery/image4.jpg' %}"><img class="img-thumbnail img-fluid image" src="{%static 'img/scenery/image4.jpg' %}"></a></div>
+                    <div class="col-md-6 col-lg-4 item"><a class="lightbox" href="{% static 'img/scenery/image6.jpg' %}"><img class="img-thumbnail img-fluid image" src="{%static 'img/scenery/image6.jpg' %}"></a></div>
+                    <div class="col-md-6 col-lg-4 item"><a class="lightbox" href="{% static 'img/scenery/image5.jpg' %}"><img class="img-thumbnail img-fluid image" src="{%static 'img/scenery/image5.jpg' %}"></a></div>
+                    <div class="col-md-6 col-lg-4 item"><a class="lightbox" href="{% static 'img/scenery/image1.jpg' %}"><img class="img-thumbnail img-fluid image" src="{%static 'img/scenery/image1.jpg' %}"></a></div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}
+{% block body_script %}
+{% endblock %}

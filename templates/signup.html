@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block head_style %}
+{% endblock %}
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+{% block main_content %}
+    <main class="page registration-page">
+        <section class="clean-block clean-form dark">
+            <div class="container">
+                <div class="block-heading">
+                    <h2 class="text-info">Registration</h2>
+                </div>
+                {% if error %}
+                    <div class="alert alert-success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <span>
+                            <strong>{{ error }}</strong>
+                         </span>
+                    </div>
+                {% endif %}
+                <form action="{% url 'signup' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="first_name">First Name</label>
+                        <input class="form-control item" type="text" id="first_name" name="first_name"
+                               placeholder="Enter First Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Last Name</label>
+                        <input class="form-control item" type="text" id="last_name" name="last_name"
+                               placeholder="Enter Last Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input class="form-control item" type="text" id="username" name="username"
+                               placeholder="Enter Username" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input class="form-control item" type="password" id="password" name="password"
+                               placeholder="Enter Password" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="password1">Confirm Password</label>
+                        <input class="form-control item" type="password" id="password1"
+                               placeholder="Enter Confirm Password" name="password1" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input class="form-control item" type="email" id="email" placeholder="Enter Email-Id"
+                               name="email" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="mob">Mobile Number</label>
+                        <input class="form-control item" type="number" id="mob" placeholder="Enter Mobile Number"
+                               name="mob" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input class="form-control item" type="number" id="age" placeholder="Enter Age" name="age"
+                               required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="myfile">Profile Picture</label>
+                        <input type="file" class="form-control" name="myfile" id="myfile" required="" accept="image/*">
+                    </div>
+                    <button class="btn btn-primary btn-block" type="submit" name="signup">Sign Up</button>
+
+                    <div> Already Register ?
+                        <a href="{% url 'login' %}" class="card-link">Login</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}
+{% block body_script %}
+{% endblock %}
+
+
