@@ -10,22 +10,81 @@
     {% include 'navbar.html' %}
 {% endblock %}
 {% block main_content %}
-    <main class="page">
-        <section class="clean-block about-us">
-            <div class="container">
-                {% if   data %}
-                    <div class="block-heading">
-                        <h2 class="text-info">Show data</h2>
+    <main class="page blog-post-list">
+        <section class="clean-block clean-blog-list dark">
+            {% if  data %}
+                <div class="container">
+                    <div class="block-heading row">
+                        <div class="col-md-7 col-lg-7">
+                            <h2 class="text-info">Blog Post List</h2>
+                        </div>
+                        <div class="col-md-5 col-lg-5 float-right">
+                            <button class="btn btn-primary"><a class="btn btn-primary" href="{% url 'add_post' %}">Add
+                                Post</a></button>
+                        </div>
+
                     </div>
-                    <div class="row justify-content-center">
+                    <div class="block-content">
                         {% for d in data %}
-                            <div class="col-sm-6 col-lg-4">
+                            <div class="clean-blog-post">
+                                <div class="row">
+                                    <div class="col-lg-5">
+                                        <img class="rounded img-fluid" src="{{ d.post_image }}" alt="{{ d.post_image.title }}">
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <h3>{{ d.post_title }}</h3>
+                                        <div class="info">
+                                    <span class="text-muted">{{ d.post_created_date|date }}  by&nbsp;
+                                        <a href="#">{{ d.post_writer.get_full_name }}</a>
+                                    </span>
+                                        </div>
+                                        <p>
+                                            {#                                            {{ d.post_description |slice:":255"  }}#}
+                                            {{ d.post_description |truncatechars:255 }}
+                                            {#                                            {{ d.post_description |stringformat:".255s"  }}#}
+                                        </p>
+                                        <a class="btn btn-outline-primary btn-sm" href="/post_edit/{{ d.id }}/">Edit</a>
+                                        <a class="btn btn-outline-primary btn-sm"
+                                           href="/post_delete/{{ d.id }}/">Delete</a>
+                                        <a class="btn btn-outline-primary btn-sm" href="/post_publish/{{ d.id }}/">
+                                            {% if d.post_publish_status %}
+                                                <span class="glyphicon glyphicon-ok"></span> Publish
+                                            {% else %}
+                                                Un-Publish<span class="glyphicon glyphicon-remove"></span>
+                                            {% endif %}
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="container-fluid">
+                    <div class="block-heading row">
+                        <div class="col-md-7">
+                            <h2 class="text-info">User Register List</h2>
+                        </div>
+                        <div class="col-md-5 float-right">
+                            <button class="btn btn-primary"><a class="btn btn-primary" href="{% url 'add_post' %}">Add
+                                Post</a></button>
+                        </div>
+
+                    </div>
+                    <div class="row mt-3 justify-content-center">
+
+                        {% for d in dataa %}
+
+                            <div class="col-sm-6 col-lg-3 mt-4 col-md-4">
                                 <div class="card clean-card text-center">
-                                    <img class="card-img-top w-100 d-block" src="{{ d.profile_pic }}">
+                                    <img class="img img-thumbnail  card-img-top w-100 d-block" src="{{ d.profile_pic }}"
+                                         alt="{{ d.user.get_full_name }}"/>
                                     <div class="card-body info">
                                         <h4 class="card-title">{{ d.user.get_full_name }}</h4>
-                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit.</p>
+                                        <p>{{ d.mobileno }}</p>
+                                        <p class="card-text">{{ d.user.email }}</p>
                                         <div class="icons">
                                             <a href="#"><i class="icon-social-facebook"></i></a>
                                             <a href="#"><i class="icon-social-instagram"></i></a>
@@ -34,36 +93,74 @@
                                     </div>
                                 </div>
                             </div>
+
                         {% endfor %}
                     </div>
-                {% else %}
-                    <div class="page">
-                        <h1>Show data</h1>
-                        <div class="row">
-                            {% for d in data %}
-                                <div class="col-md-4">
-                                    <div class="card" style="width: 18rem;">
-                                        <img src="{{ d.profile_pic }}" class="card-img-top" alt="{{ d.mobileno }}">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ d.user.get_full_name }}</h5>
-                                            <p class="card-text">Some quick example text to build on the card title and
-                                                make up the
-                                                bulk of the card's content.</p>
-                                            <a href="{% url 'home' %}" class="btn btn-primary">Go Profile</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
+                </div>
+            {% endif %} 
         </section>
     </main>
+
+
 {% endblock %}
+
 {% block footer %}
     {% include 'footer.html' %}
 {% endblock %}
 {% block body_script %}
 {% endblock %}
 
+<main class="page">
+    <section class="clean-block about-us">
+        <div class="container">
+            {% if   data %}
+                <div class="block-heading">
+                    <h2 class="text-info">Show Post data </h2>
+                </div>
+                <div class="row mt-3 justify-content-center">
+
+                    {% for d in data %}
+
+                        <div class="col-sm-6 col-lg-3 mt-4 col-md-4">
+                            <div class="card clean-card text-center">
+                                <img class="img img-thumbnail  card-img-top w-100 d-block" src="{{ d.post_image }}"
+                                     alt="{{ d.post_title }}"/>
+                                <div class="card-body info">
+                                    <h4 class="card-title">{{ d.post_title }}</h4>
+                                    <p class="card-text">{{ d.post_description }}</p>
+                                    <div class="icons">
+                                        <a href="#"><i class="icon-social-facebook"></i></a>
+                                        <a href="#"><i class="icon-social-instagram"></i></a>
+                                        <a href="#"><i class="icon-social-twitter"></i></a>
+                                    </div>
+                                    <p>{{ d.post_writer.get_full_name }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="page">
+                    <h1>Show User data</h1>
+                    <div class="row mt-3">
+                        {% for d in dataa %}
+                            <div class="col-md-4">
+                                <div class="card" style="width: 18rem;">
+                                    <img src="{{ d.profile_pic }}" class="card-img-top" alt="{{ d.mobileno }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ d.user.get_full_name }}</h5>
+                                        <p class="card-text">Some quick example text to build on the card title and
+                                            make up the
+                                            bulk of the card's content.</p>
+                                        <a href="{% url 'home' %}" class="btn btn-primary">Go Profile</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</main>

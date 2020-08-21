@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block head_style %}
+{% endblock %}
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+{% block main_content %}
+    <main class="page">
+        <section class="clean-block clean-form dark" style=" max-width: none; ">
+            <div class="container">
+                <div class="block-heading">
+                    <h2 class="text-info">Add Post</h2>
+                </div>
+                {% if error %}
+                    <div class="alert alert-success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <span>
+                            <strong>{{ error }}</strong>
+                         </span>
+                    </div>
+                {% endif %}
+                <form action="/post_update/{{ data.id }}/" method="post" enctype="multipart/form-data"
+                      style=" max-width: none; ">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="post_title">Post Name</label>
+                        <input class="form-control item" type="text" id="post_title" name="post_title"
+                               placeholder="Enter Post Name" value="{{ data.post_title }}" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="post_description">Post Description</label>
+                        <textarea class="form-control item" id="post_description"   name="post_description"
+                                  placeholder="Enter Post Description" rows="5">{{ data.post_description }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="post_file">Post Heding Image</label>
+                        <input type="file" class="form-control" name="post_file" id="post_file" value="{{ data. }}" required=""
+                               accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="post_publish_status"> Publish Post </label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="post_publish_status"
+                                                       id="post_publish_status"
+                                                       value="True">
+                    </div>
+                    <button class="btn btn-primary btn-block" type="submit" name="add-post">Add Post</button>
+
+                </form>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}
+{% block body_script %}
+{% endblock %}
+
+

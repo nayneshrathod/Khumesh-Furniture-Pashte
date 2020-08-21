@@ -14,9 +14,6 @@
                 {# </li>#}
                 {# <li class="nav-item" role="presentation"><a class="nav-link {{ home_active }}" href="{% url 'home' %}">Blog#}
                 {# Post</a></li>#}
-                {# <li class="nav-item" role="presentation"><a class="nav-link  {{ home_active }}" href="{% url 'home' %}">Shopping#}
-                {# Cart</a>#}
-                {# </li>#}
                 <li class="nav-item" role="presentation">
                     <a class="nav-link {{ about_active }}" href="{% url 'about' %}">About Us</a>
                 </li>
@@ -24,6 +21,9 @@
                     <a class="nav-link {{ contact_active }}" href="{% url 'contact' %}">Contact Us</a>
                 </li>
                 {% if user.is_authenticated %}
+{#                    <li class="nav-item" role="presentation">#}
+{#                        <a class="nav-link  {{ add_post_active }}" href="{% url 'add_post' %}">Add Post</a>#}
+{#                    </li>#}
                     <li class="nav-item " role="presentation">
                         <a class="nav-link {{ dashboard_active }}" href="{% url 'show' %}">Dashboard</a>
                     </li>

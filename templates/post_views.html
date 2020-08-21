@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block head_style %}
+{% endblock %}
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+{% block main_content %}
+    <main class="page blog-post">
+        <section class="clean-block clean-post dark">
+            <div class="container">
+                <div class="block-content">
+                    <div class="post-image" style="background-image:url({{ data.post_image }});"></div>
+                    <div class="post-body">
+                        <h3>{{ data.post_title }}</h3>
+                        <div class="post-info">
+                            <span>By {{ data.post_writer.get_full_name }}</span>
+                            <span>{{ data.post_created_date|date }}</span>
+                        </div>
+                        <p style="font-size: 20px">
+                            {{ data.post_description|linebreaksbr  }}
+                        </p>
+                        <figure class="figure">
+                            <img class="rounded img-fluid figure-img" src="{{ data.post_writer.extenduser.profile_pic }}"
+                                 alt="{{ data.post_update_date }}">
+                            <figcaption class="figure-caption">{{ data.post_writer.email }}</figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}
+{% block body_script %}
+{% endblock %}
+
+
