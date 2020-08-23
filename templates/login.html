@@ -14,19 +14,20 @@
             <p class="container">
             <div class="block-heading">
                 <h2 class="text-info">Log In</h2>
-            </div>
-            {% if messages %}
-                {% for msg in messages %}
+                {% if error %}
+                    {#                {% for msg in error %}#}
 
-                    <div class="alert alert-{{ msg.tags }}" role="alert">
+                    <div class="alert alert-danger" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times; </span>
                         </button>
-                        <span><strong>{{ msg }} </strong> </span>
+                        <span><strong>{{ error }} </strong> </span>
                     </div>
 
-                {% endfor %}
-            {% endif %}
+                    {#                {% endfor %}#}
+                {% endif %}
+            </div>
+
             <form action="{% url 'login' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
