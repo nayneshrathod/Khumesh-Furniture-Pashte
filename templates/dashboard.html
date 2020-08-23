@@ -19,12 +19,18 @@
                             <h2 class="text-info">Blog Post List</h2>
                         </div>
                         <div class="col-md-5 col-lg-5 float-right">
-                            <button class="btn btn-primary"><a class="btn btn-primary" href="{% url 'add_post' %}">Add
-                                Post</a></button>
+                            {# <button class="btn btn-primary">#}
+                            <a class="btn btn-primary" href="{{ '/accounts/add_post/' }}">Add Post</a>
+                            {# </button>#}
                         </div>
 
                     </div>
-                    <div class="block-content">
+                    <div class="container">
+                        {% if error %}
+                            <p>{{ error }}</p>
+                        {% endif %}
+                    </div>
+                    <div class=" block-content">
                         {% for d in data %}
                             <div class="clean-blog-post">
                                 <div class="row">
@@ -33,7 +39,7 @@
                                              alt="{{ d.post_image.title }}">
                                     </div>
                                     <div class="col-lg-7">
-                                        <h3>{{ d.post_title }}</h3>
+                                        <h3><a href="/accounts/post_view/{{ d.id }}/">{{ d.post_title }}</a></h3>
                                         <div class="info">
                                     <span class="text-muted">{{ d.post_created_date|date }}  by&nbsp;
                                         <a href="#">{{ d.post_writer.get_full_name }}</a>
@@ -45,9 +51,12 @@
                                             {{ d.post_description |truncatechars:255 }}
                                             {#  {{ d.post_description |stringformat:".255s"  }}#}
                                         </p>
-                                        <a class="btn btn-outline-primary btn-sm" href="/post_edit/{{ d.id }}/">Edit</a>
-                                        <a class="btn btn-outline-primary btn-sm"  href="/post_delete/{{ d.id }}/">Delete</a>
-                                        <a class="btn btn-outline-primary btn-sm" href="/post_publish/{{ d.id }}/">
+                                        <a class="btn btn-outline-primary btn-sm"
+                                           href="/accounts/post_edit/{{ d.id }}/">Edit</a>
+                                        <a class="btn btn-outline-primary btn-sm"
+                                           href="/accounts/post_delete/{{ d.id }}/">Delete</a>
+                                        <a class="btn btn-outline-primary btn-sm"
+                                           href="/accounts/post_publish/{{ d.id }}/">
                                             {% if d.post_publish_status %}
                                                 <span class="glyphicon glyphicon-ok"></span> Publish
                                             {% else %}
@@ -68,8 +77,9 @@
                             <h2 class="text-info">User Register List</h2>
                         </div>
                         <div class="col-md-5 float-right">
-                            <button class="btn btn-primary"><a class="btn btn-primary" href="{% url 'add_post' %}">Add
-                                Post</a></button>
+                            {# <button class="btn btn-primary">#}
+                            <a class="btn btn-primary" href="{% url 'add_post' %}">Add Post</a>
+                            {# </button>#}
                         </div>
 
                     </div>

@@ -11,12 +11,14 @@ from extapp.models import *
 # Create your views here.
 def homepage(request):
     datas = post.objects.filter(post_publish_status=True)
-    return render(request, 'home.html', {'data': datas, 'title': 'HOme', 'home_active': 'active'})
+    return render(request, 'home.html', {'data': datas, 'title': 'Home', 'home_active': 'active'})
 
 
 # Create your views here.
 def about(request):
-    return render(request, 'about.html', {'title': 'About', 'about_active': 'active'})
+    data = extenduser.objects.all()
+    data = data[0:3]
+    return render(request, 'about.html', {'data': data, 'title': 'About', 'about_active': 'active'})
 
 
 def contact(request):
@@ -109,7 +111,7 @@ def signup(request):
         return render(request, 'signup.html', {'title': 'Sign Up', 'sign_active': 'active'})
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='/accounts/login/')
 def showdata(request):
     # datas = extenduser.objects.filter(user=request.user)
     dataa = extenduser.objects.all()
@@ -127,7 +129,7 @@ def logout(request):
     return redirect('login')
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='/accounts/login/')
 def add_post(request):
     if request.method == 'GET':
         return render(request, 'add_post.html', {'title': 'Add Post', 'add_post_active': 'active'})
@@ -176,8 +178,10 @@ def post_view(request, id):
 
 
 def post_delete(request, id):
-    data = post.objects.get(id=id)
-    return render(request, 'post_views.html', {'data': data, 'title': data.post_title, 'add_post_active': 'active'})
+    # data = post.objects.get(id=id)
+    data = post.objects.filter(id=id).delete()
+    return redirect('show')
+    # return render(request, 'post_views.html', {'data': data, 'title': "Data Is Deleted", 'add_post_active': 'active'})
 
 
 def post_update(request, id):
@@ -197,14 +201,15 @@ def post_update(request, id):
                                                   post_image=url)
         else:
             s = post.objects.filter(id=id).update(post_title=post_title,
-                                                  post_description=post_description )
+                                                  post_description=post_description)
         # return render(request, 'post_views.html', {'data': data, 'title': data.post_title, 'add_post_active': 'active'})
         return redirect('home')
 
 
 def post_edit(request, id):
     data = post.objects.get(id=id)
-    return render(request, 'edit_post.html', {'data': data, 'title': data.post_title, 'add_post_active': 'active'})
+    return render(request, 'edit_post.html',
+                  {'data': data, 'title': 'Edit ' + data.post_title, 'add_post_active': 'active'})
 
 
 def post_publish(request, id):
