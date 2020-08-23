@@ -35,13 +35,14 @@
                     </div>
                     <div class="form-group">
                         <label for="post_description">Post Description</label>
-                        <textarea class="form-control item" id="post_description"   name="post_description"
+                        <textarea class="form-control item" id="post_description" name="post_description"
                                   placeholder="Enter Post Description" rows="5">{{ data.post_description }}</textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="post_file">Post Heding Image</label>
-                        <input type="file" class="form-control" name="post_file" id="post_file" value="{{ data. }}" required=""
+                        <input type="file" class="form-control" name="post_file" id="post_file"
+                               value="{{ data.post_image.title }}"
                                accept="image/*">
                     </div>
 

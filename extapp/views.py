@@ -181,11 +181,26 @@ def post_delete(request, id):
 
 
 def post_update(request, id):
-    data = post.objects.get(id=id)
-    post.objects.filter(id=id).update(post_title=request.POST['post_title'],
-                                      post_description=request.POST['post_description'],
-                                      post_publish_status=False)
-    return render(request, 'post_views.html', {'data': data, 'title': data.post_title, 'add_post_active': 'active'})
+    if request.method == 'POST':  # and request.FILES['post_file']:
+        data = post.objects.get(id=id)
+        post_title = request.POST['post_title'] or None
+        post_description = request.POST['post_description'] or None
+        if request.FILES['post_file']:
+            # post_img = request.FILES['post_file'] or None
+            post_img = request.FILES['post_file']
+            fs = FileSystemStorage()
+            filename = fs.save(post_img.name, post_img)
+            url = fs.url(filename)
+            print(url)
+            s = post.objects.filter(id=id).update(post_title=post_title,
+                                                  post_description=post_description,post_update_date = timezone.now,
+                                                  post_image=url)
+        else:
+            s = post.objects.filter(id=id).update(post_title=post_title,
+                                                  post_description=post_description,
+                                                  post_update_date = timezone.now)
+        # return render(request, 'post_views.html', {'data': data, 'title': data.post_title, 'add_post_active': 'active'})
+        return redirect('home')
 
 
 def post_edit(request, id):

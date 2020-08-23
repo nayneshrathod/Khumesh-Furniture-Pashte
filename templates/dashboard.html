@@ -29,7 +29,8 @@
                             <div class="clean-blog-post">
                                 <div class="row">
                                     <div class="col-lg-5">
-                                        <img class="rounded img-fluid" src="{{ d.post_image }}" alt="{{ d.post_image.title }}">
+                                        <img class="rounded img-fluid" src="{{ d.post_image }}"
+                                             alt="{{ d.post_image.title }}">
                                     </div>
                                     <div class="col-lg-7">
                                         <h3>{{ d.post_title }}</h3>
@@ -37,15 +38,15 @@
                                     <span class="text-muted">{{ d.post_created_date|date }}  by&nbsp;
                                         <a href="#">{{ d.post_writer.get_full_name }}</a>
                                     </span>
+                                            <span>Update {{ d.post_update_date|date }}</span>
                                         </div>
                                         <p>
-                                            {#                                            {{ d.post_description |slice:":255"  }}#}
+                                            {#  {{ d.post_description |slice:":255"  }}#}
                                             {{ d.post_description |truncatechars:255 }}
-                                            {#                                            {{ d.post_description |stringformat:".255s"  }}#}
+                                            {#  {{ d.post_description |stringformat:".255s"  }}#}
                                         </p>
                                         <a class="btn btn-outline-primary btn-sm" href="/post_edit/{{ d.id }}/">Edit</a>
-                                        <a class="btn btn-outline-primary btn-sm"
-                                           href="/post_delete/{{ d.id }}/">Delete</a>
+                                        <a class="btn btn-outline-primary btn-sm"  href="/post_delete/{{ d.id }}/">Delete</a>
                                         <a class="btn btn-outline-primary btn-sm" href="/post_publish/{{ d.id }}/">
                                             {% if d.post_publish_status %}
                                                 <span class="glyphicon glyphicon-ok"></span> Publish
@@ -53,7 +54,6 @@
                                                 Un-Publish<span class="glyphicon glyphicon-remove"></span>
                                             {% endif %}
                                         </a>
-
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                         {% endfor %}
                     </div>
                 </div>
-            {% endif %} 
+            {% endif %}
         </section>
     </main>
 
