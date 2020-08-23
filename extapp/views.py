@@ -193,12 +193,11 @@ def post_update(request, id):
             url = fs.url(filename)
             print(url)
             s = post.objects.filter(id=id).update(post_title=post_title,
-                                                  post_description=post_description,post_update_date = timezone.now,
+                                                  post_description=post_description,
                                                   post_image=url)
         else:
             s = post.objects.filter(id=id).update(post_title=post_title,
-                                                  post_description=post_description,
-                                                  post_update_date = timezone.now)
+                                                  post_description=post_description )
         # return render(request, 'post_views.html', {'data': data, 'title': data.post_title, 'add_post_active': 'active'})
         return redirect('home')
 
