@@ -13,7 +13,7 @@ class extenduser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.username
+        return self.user.id
 #
 #
 # class post(models.Model):

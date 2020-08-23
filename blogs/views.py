@@ -12,13 +12,16 @@ from blogs.models import post
 
 @login_required(login_url='/accounts/login/')
 def showdata(request):
-    # datas = extenduser.objects.filter(user=request.user)
-    dataa = extenduser.objects.all()
+    dataa = User.objects.filter(id=request.user.id)
+
+    print(dataa)
+    # datac = extenduser.objects.get(id=request.user.id)
+    # print(datac)
     datas = post.objects.filter(post_writer=request.user.id)
     print(datas)
 
     return render(request, 'dashboard.html',
-                  {'data': datas, 'dataa': dataa, 'title': 'Dashboard', 'dashboard_active': 'active', })
+                  {'data': datas, 'd': dataa, 'title': 'Dashboard', 'dashboard_active': 'active', })
 
 
 @login_required(login_url='/accounts/login/')

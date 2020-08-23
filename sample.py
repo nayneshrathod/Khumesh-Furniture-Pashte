@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
-
 from blogs.models import post
-from extapp.models import *
+from extapp.models import extenduser
 
 s = User.objects.get(username='Nano')
 d = post.objects.create(post_writer=s, post_title='This is a Post Title', post_description='this is a post Discription',
