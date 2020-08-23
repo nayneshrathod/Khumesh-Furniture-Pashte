@@ -20,5 +20,18 @@ b1 = post.objects.create(post_writer=s1, post_title='This is a Post Title by Kol
                          post_description='this is a post Discription by Koli', post_publish_status=False)
 b1.save
 
+data = extenduser.objects.all()
+dataa = data[0:3]
 
+data1 = extenduser.objects.get(user=2)
+print(data1.profile_pic)
 
+# dataa = User.objects.filter(id=request.user.id)
+# data = extenduser.objects.all()
+# dataa = data[0:3]
+
+# print(dataa)
+# print(dataa.get(id=request.user.id))
+#
+# datac = extenduser.objects.get(user__username=dataa.get(id=request.user.id))
+# print(str(datac))
