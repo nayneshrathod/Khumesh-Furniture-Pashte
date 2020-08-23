@@ -14,6 +14,17 @@ class extenduser(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class feedback(models.Model):
+    fbs_name = models.CharField(max_length=50)
+    fbs_subject = models.CharField(max_length=150)
+    fbs_email = models.CharField(max_length=100)
+    fbs_message = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.fbs_name
+
 #
 #
 # class post(models.Model):

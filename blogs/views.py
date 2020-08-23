@@ -13,7 +13,6 @@ from blogs.models import post
 @login_required(login_url='/accounts/login/')
 def showdata(request):
     dataa = extenduser.objects.get(user=request.user.id)
-
     datas = post.objects.filter(post_writer=request.user.id)
     print(datas)
 

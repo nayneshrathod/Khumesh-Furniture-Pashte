@@ -1,12 +1,16 @@
 from django.contrib import auth
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.mail import BadHeaderError, send_mail
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
-from extapp.models import extenduser
+from extapp.models import extenduser, feedback
 from blogs.models import post
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 # Create your views here.
@@ -23,8 +27,58 @@ def about(request):
 
 
 def contact(request):
-    return render(request, 'contact.html', {'title': 'Contact', 'contact_active': 'active'})
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            dataa = extenduser.objects.get(user=request.user.id)
+            return render(request, 'contact.html', {'d': dataa, 'title': 'Contact', 'contact_active': 'active'})
+        else:
+            return render(request, 'contact.html', {'title': 'Contact', 'contact_active': 'active'})
+    if request.method == 'POST':
+        if request.POST['email'] and request.POST['ful_name'] and request.POST['subject'] and request.POST['message']:
+            fb = feedback.objects.create(fbs_email=request.POST['email'], fbs_name=request.POST['ful_name'],
+                                         fbs_subject=request.POST['subject'], fbs_message=request.POST['message'])
+            fb.save()
+            subject = request.POST.get('subject', '')
+            message = request.POST.get('message', '')
+            to_email = request.POST.get('email', '')
+            from_email = settings.EMAIL_HOST_USER
+            if subject and message and from_email:
+                try:
+                    send_mail(subject, message, from_email, [to_email])
+                    messages.success(request, "Mail Send Succsffully")
+                    return redirect('contact')
+                except BadHeaderError:
+                    return HttpResponse('Invalid header found.')
+                # return HttpResponseRedirect('contact')
+                return redirect('contact')
+            else:
+                # In reality we'd use a form class
+                # to get proper validation errors.
+                messages.warning(request, "Make sure all fields are entered and valid.")
+                return redirect('contact')
+                # return HttpResponse('Make sure all fields are entered and valid.')
+            messages.success(request, "Feedback Send")
+            return redirect('contact')
+        else:
+            return render(request, 'contact.html', {'error': 'Plese Enter Value', 'contact_active': 'active'})
 
+
+#
+# def send_email(request):
+#     subject = request.POST.get('subject', '')
+#     message = request.POST.get('message', '')
+#     from_email = request.POST.get('email', '')
+#     if subject and message and from_email:
+#         try:
+#             send_mail(subject, message, from_email, ['nayneshrathod@gmail.com'])
+#         except BadHeaderError:
+#             return HttpResponse('Invalid header found.')
+#         return HttpResponseRedirect('contact')
+#     else:
+#         # In reality we'd use a form class
+#         # to get proper validation errors.
+#         return HttpResponse('Make sure all fields are entered and valid.')
+#
 
 def login(request):
     if request.method == 'GET':
@@ -43,7 +97,8 @@ def login(request):
                     return redirect('show')
                 else:
                     return render(request, 'login.html',
-                          {'error': 'Invalid  username and password', 'title': 'Login', 'login_active': 'active'})
+                                  {'error': 'Invalid  username and password', 'title': 'Login',
+                                   'login_active': 'active'})
             except User.DoesNotExist:
                 return render(request, 'login.html',
                               {'error': 'User Does Not Exist', 'title': 'Login', 'login_active': 'active'})
