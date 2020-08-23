@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+
+from blogs.models import post
 from extapp.models import *
 
 s = User.objects.get(username='Nano')

@@ -20,7 +20,7 @@
                         </div>
                         <div class="col-md-5 col-lg-5 float-right">
                             {# <button class="btn btn-primary">#}
-                            <a class="btn btn-primary" href="{{ '/accounts/add_post/' }}">Add Post</a>
+                            <a class="btn btn-primary" href="{% url 'add_post' %}">Add Post</a>
                             {# </button>#}
                         </div>
 
@@ -39,7 +39,7 @@
                                              alt="{{ d.post_image.title }}">
                                     </div>
                                     <div class="col-lg-7">
-                                        <h3><a href="/accounts/post_view/{{ d.id }}/">{{ d.post_title }}</a></h3>
+                                        <h3><a href="/blog/post_view/{{ d.id }}/">{{ d.post_title }}</a></h3>
                                         <div class="info">
                                     <span class="text-muted">{{ d.post_created_date|date }}  by&nbsp;
                                         <a href="#">{{ d.post_writer.get_full_name }}</a>
@@ -51,18 +51,86 @@
                                             {{ d.post_description |truncatechars:255 }}
                                             {#  {{ d.post_description |stringformat:".255s"  }}#}
                                         </p>
-                                        <a class="btn btn-outline-primary btn-sm"
-                                           href="/accounts/post_edit/{{ d.id }}/">Edit</a>
-                                        <a class="btn btn-outline-primary btn-sm"
-                                           href="/accounts/post_delete/{{ d.id }}/">Delete</a>
-                                        <a class="btn btn-outline-primary btn-sm"
-                                           href="/accounts/post_publish/{{ d.id }}/">
-                                            {% if d.post_publish_status %}
-                                                <span class="glyphicon glyphicon-ok"></span> Publish
-                                            {% else %}
-                                                Un-Publish<span class="glyphicon glyphicon-remove"></span>
-                                            {% endif %}
-                                        </a>
+
+
+                                        {# post edit#}
+                                        <form action='/blog/post_edit/{{ d.id }}/'
+                                              method="post" style="display: inline;" onsubmit="window.mytest()">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="post_id" value="{{ d.id }}"/>
+                                            <button type="submit" class="btn btn-outline-primary btn-sm">Edit
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </button>
+                                        </form>
+                                        <script type="text/javascript">
+                                            window.mytest = function () {
+                                                var isValid = confirm('Are you sure ?');
+                                                if (!isValid) {
+                                                    event.preventDefault();
+                                                    alert("It wont delete. Yay!");
+                                                }
+                                            }
+                                        </script>
+
+                                        {#post delete#}
+                                        <form action='/blog/post_delete/{{ d.id }}/'
+                                              method="post" style="display: inline;" onsubmit="window.mytest()">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="post_id" value="{{ d.id }}"/>
+                                            <button type="submit" class="btn btn-outline-primary btn-sm">Delete
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </button>
+                                        </form>
+                                        <script type="text/javascript">
+                                            window.mytest = function () {
+                                                var isValid = confirm('Are you sure ?');
+                                                if (!isValid) {
+                                                    event.preventDefault();
+                                                    alert("It wont delete. Yay!");
+                                                }
+                                            }
+                                        </script>
+                                        {#post Publish#}
+                                        <form action='/blog/post_publish/{{ d.id }}/'
+                                              method="post" style="display: inline;" onsubmit="window.mytest()">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="post_id" value="{{ d.id }}"/>
+                                            <button type="submit" class="btn btn-outline-primary btn-sm">
+                                                {% if d.post_publish_status %}
+                                                    <span class="glyphicon glyphicon-ok"></span> Publish
+                                                {% else %}
+                                                    Un-Publish<span class="glyphicon glyphicon-remove"></span>
+                                                {% endif %}
+                                            </button>
+                                        </form>
+                                        <script type="text/javascript">
+                                            window.mytest = function () {
+                                                var isValid = confirm('Are you sure ?');
+                                                if (!isValid) {
+                                                    event.preventDefault();
+                                                    {% if d.post_publish_status %}
+                                                        alert("Its now Publish");
+                                                    {% else %}
+                                                        alert("Its now  Un-Publish");
+                                                    {% endif %}
+                                                    {#alert("It wont NOt Publish. Yay!");#}
+                                                }
+                                            }
+                                        </script>
+
+
+                                        {# <a class="btn btn-outline-primary btn-sm" href="/accounts/post_edit/{{ d.id }}/">Edit</a>#}
+                                        {# <a class="btn btn-outline-primary btn-sm" href="/accounts/post_delete/{{ d.id }}/">Delete</a>#}
+
+
+                                        {#                                        <a class="btn btn-outline-primary btn-sm"#}
+                                        {#                                           href="/accounts/post_publish/{{ d.id }}/">#}
+                                        {#                                            {% if d.post_publish_status %}#}
+                                        {#                                                <span class="glyphicon glyphicon-ok"></span> Publish#}
+                                        {#                                            {% else %}#}
+                                        {#                                                Un-Publish<span class="glyphicon glyphicon-remove"></span>#}
+                                        {#                                            {% endif %}#}
+                                        {#                                        </a>#}
                                     </div>
                                 </div>
                             </div>

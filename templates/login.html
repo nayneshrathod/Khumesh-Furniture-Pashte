@@ -15,7 +15,7 @@
             <div class="block-heading">
                 <h2 class="text-info">Log In</h2>
             </div>
-            {% if mmessages %}
+            {% if messages %}
                 {% for msg in messages %}
 
                     <div class="alert alert-{{ msg.tags }}" role="alert">
@@ -40,6 +40,7 @@
                            placeholder="Enter Password">
                 </div>
                 <button class="btn btn-primary btn-block" type="submit" name="login">Log In</button>
+                <br>
                 <div> Create New Accounts
                     <a href="{% url 'signup' %}" class="card-link">Sing Up</a>
                 </div>

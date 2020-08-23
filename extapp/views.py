@@ -5,14 +5,14 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
-from extapp.models import *
+from extapp.models import extenduser
+from blogs.models import post
 
 
 # Create your views here.
 def homepage(request):
     datas = post.objects.filter(post_publish_status=True)
     return render(request, 'home.html', {'data': datas, 'title': 'Home', 'home_active': 'active'})
-
 
 # Create your views here.
 def about(request):
@@ -24,30 +24,6 @@ def about(request):
 def contact(request):
     return render(request, 'contact.html', {'title': 'Contact', 'contact_active': 'active'})
 
-
-def login(request):
-    if request.method == 'GET':
-        if request.user.is_authenticated:
-            print("Login >> True > if request.user.is_authenticated")
-            return redirect("show")
-        else:
-            print("Login >> False > if request.user.is_authenticated")
-            return render(request, 'login.html', {'title': 'Login', 'login_active': 'active'})
-    if request.method == 'POST':
-        if request.POST['email'] and request.POST['password']:
-            try:
-                # user = auth.authenticate(email=request.POST['email'])
-                user = User.objects.get(email=request.POST['email'])
-                auth.login(request, user)
-                # return  redirect('home')
-                return redirect('show')
-            except User.DoesNotExist:
-                return render(request, 'login.html',
-                              {'error': 'User Does Not Exist', 'title': 'Login', 'login_active': 'active'})
-        else:
-            return render(request, 'login.html', {'error': 'Empty Field', 'title': 'Login', 'login_active': 'active'})
-    else:
-        return render(request, 'login.html', {'title': 'Login', 'login_active': 'active'})
 
 
 # def login(request):
@@ -111,111 +87,32 @@ def signup(request):
         return render(request, 'signup.html', {'title': 'Sign Up', 'sign_active': 'active'})
 
 
-@login_required(login_url='/accounts/login/')
-def showdata(request):
-    # datas = extenduser.objects.filter(user=request.user)
-    dataa = extenduser.objects.all()
-    datas = post.objects.filter(post_writer=request.user.id)
-    print(datas)
+def login(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            print("Login >> True > if request.user.is_authenticated")
+            return redirect("show")
+        else:
+            print("Login >> False > if request.user.is_authenticated")
+            return render(request, 'login.html', {'title': 'Login', 'login_active': 'active'})
+    if request.method == 'POST':
+        if request.POST['email'] and request.POST['password']:
+            try:
+                # user = auth.authenticate(email=request.POST['email'])
+                user = User.objects.get(email=request.POST['email'])
+                auth.login(request, user)
+                # return  redirect('home')
+                return redirect('show')
+            except User.DoesNotExist:
+                return render(request, 'login.html',
+                              {'error': 'User Does Not Exist', 'title': 'Login', 'login_active': 'active'})
+        else:
+            return render(request, 'login.html', {'error': 'Empty Field', 'title': 'Login', 'login_active': 'active'})
+    else:
+        return render(request, 'login.html', {'title': 'Login', 'login_active': 'active'})
 
-    return render(request, 'dashboard.html',
-                  {'data': datas, 'dataa': dataa, 'title': 'Dashboard', 'dashboard_active': 'active', })
 
-
-#
-# @login_required(login_url='/login/')
 def logout(request):
     auth.logout(request)
     return redirect('login')
 
-
-@login_required(login_url='/accounts/login/')
-def add_post(request):
-    if request.method == 'GET':
-        return render(request, 'add_post.html', {'title': 'Add Post', 'add_post_active': 'active'})
-
-    if request.method == 'POST' and request.FILES['post_file']:
-        if request.POST['post_title'] and request.POST['post_description'] and request.FILES['post_file']:
-            try:
-                user = User.objects.get(username=request.user)
-                print(user)
-                post_img = request.FILES['post_file']
-                fs = FileSystemStorage()
-                filename = fs.save(post_img.name, post_img)
-                url = fs.url(filename)
-                print(url)
-                # post_publish_status = request.POST.get('post_publish_status')
-                # post_publish_status = True if post_publish_status else False
-
-                if request.POST.get('post_publish_status', False):
-                    post_publish_status = True
-                    print(post_publish_status)
-                    b = post.objects.create(post_writer=user, post_title=request.POST['post_title'],
-                                            post_description=request.POST['post_description'],
-                                            post_publish_status=post_publish_status,
-                                            post_image=url)
-                    b.save()
-                else:
-
-                    b = post.objects.create(post_writer=user, post_title=request.POST['post_title'],
-                                            post_description=request.POST['post_description'],
-                                            post_publish_status=False,
-                                            post_image=url)
-                    b.save()
-                return redirect('show')
-            except User.DoesNotExist:
-                return render(request, 'add_post.html', {'title': 'Add Post', 'add_post_active': 'active'})
-        else:
-            return render(request, 'add_post.html',
-                          {'erroe': 'All Data Must Be fill', 'title': 'Add Post', 'add_post_active': 'active'})
-    else:
-        return render(request, 'add_post.html', {'title': 'Add Post', 'add_post_active': 'active'})
-
-
-def post_view(request, id):
-    data = post.objects.get(id=id)
-    return render(request, 'post_views.html', {'data': data, 'title': data.post_title, 'add_post_active': 'active'})
-
-
-def post_delete(request, id):
-    # data = post.objects.get(id=id)
-    data = post.objects.filter(id=id).delete()
-    return redirect('show')
-    # return render(request, 'post_views.html', {'data': data, 'title': "Data Is Deleted", 'add_post_active': 'active'})
-
-
-def post_update(request, id):
-    if request.method == 'POST':  # and request.FILES['post_file']:
-        data = post.objects.get(id=id)
-        post_title = request.POST['post_title'] or None
-        post_description = request.POST['post_description'] or None
-        if request.FILES['post_file']:
-            # post_img = request.FILES['post_file'] or None
-            post_img = request.FILES['post_file']
-            fs = FileSystemStorage()
-            filename = fs.save(post_img.name, post_img)
-            url = fs.url(filename)
-            print(url)
-            s = post.objects.filter(id=id).update(post_title=post_title,
-                                                  post_description=post_description,
-                                                  post_image=url)
-        else:
-            s = post.objects.filter(id=id).update(post_title=post_title,
-                                                  post_description=post_description)
-        # return render(request, 'post_views.html', {'data': data, 'title': data.post_title, 'add_post_active': 'active'})
-        return redirect('home')
-
-
-def post_edit(request, id):
-    data = post.objects.get(id=id)
-    return render(request, 'edit_post.html',
-                  {'data': data, 'title': 'Edit ' + data.post_title, 'add_post_active': 'active'})
-
-
-def post_publish(request, id):
-    p = post.objects.get(id=id)
-    if p.post_publish_status == True:
-        post.objects.filter(id=id).update(post_publish_status=False)
-    else:
-        post.objects.filter(id=id).update(post_publish_status=True)
-    return redirect('show')
