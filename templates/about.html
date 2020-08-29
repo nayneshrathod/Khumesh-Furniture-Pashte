@@ -4,6 +4,104 @@
     {{ title }}
 {% endblock %}
 {% block head_style %}
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .container1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .container1 .card1 {
+            position: relative;
+            width: 280px;
+            height: 350px;
+            margin: 30px;
+        }
+
+        .container1 .card1:nth-of-type(2) {
+            transform: rotate(5deg);
+        }
+
+        .container1 .card1 .image {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        {#width: 280px;#}{#height: 350px;#} background-size: cover;
+            transform: translate(20px, 20px);
+        }
+
+        .container1 .card1:before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            width: 310px;
+            height: 385px;
+            border: 25px solid #fff;
+            z-index: 1;
+            background: linear-gradient(145deg, #ffffff, #e6e6e6);
+            box-shadow: 7px 7px 21px #bdbdbd, -7px -7px 21px #ffffff;
+            background: transparent;
+        }
+
+        .container1 .card1:nth-of-type(1)::before {
+            filter: url(#wavy1);
+        }
+
+        .container1 .card1:nth-of-type(2)::before {
+            filter: url(#wavy2);
+        }
+
+        .container1 .card1:nth-of-type(3)::before {
+            filter: url(#wavy3);
+        }
+
+        .image1 {
+            background-image: url("https://res.cloudinary.com/dswp5qfpm/image/upload/v1597476074/animal/rabbit_vq9gli.jpg");
+        }
+
+        .image2 {
+            background-image: url("https://res.cloudinary.com/dswp5qfpm/image/upload/v1597476033/animal/cat_hfwcwm.jpg");
+        }
+
+        .image3 {
+            background-image: url("https://res.cloudinary.com/dswp5qfpm/image/upload/v1597476068/animal/parrot_rjd1vq.jpg");
+        }
+
+        svg {
+            width: 0;
+            height: 0;
+        }
+
+        .container1 .card1 .info1 {
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            width: 100%;
+            height: 100%;
+            padding: 50px 30px 30px 30px;
+            transform: translate(10px, 10px);
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            line-height: 1.4;
+            font-size: 17px;
+            opacity: 0;
+            transition-duration: 1s;
+        }
+
+        .container1 .card1:hover .info1 {
+            overflow: -webkit-marquee;
+            opacity: 1;
+        }</style>
 {% endblock %}
 {% block navbar %}
     {% include 'navbar.html' %}
@@ -15,33 +113,227 @@
                 <div class="block-heading">
                     <h2 class="text-info">About Us</h2>
                 </div>
-                <div class="row justify-content-center">
-                    {% for d in data %}
 
-                        <div class="col-sm-6 col-lg-4">
-                            <div class="card clean-card text-center">
-                                <img class="card-img-top w-100 d-block" src="{{ d.profile_pic }}">
-                                <div class="card-body info">
-                                    <h4 class="card-title">{{ d.user.get_full_name }}</h4>
-                                    <p class="card-text">{{ d.mobileno }}<br>{{ d.user.email }}</p>
-                                    <div class="icons">
-                                        <a href="{{ d.profile_pic }}"> <i class="icon-social-facebook"></i></a>
-                                        <a href="{{ d.profile_pic }}"><i class="icon-social-instagram"></i></a>
-                                        <a href="{{ d.profile_pic }}"><i class="icon-social-github"></i></a>
-                                    </div>
+                <div class="container1">
+                    <div class="row justify-content-center">
+                        {% for d in data %}
+
+                            <div class="card1">
+                                <div class="image  " style="background-image: url( '{{ d.profile_pic }}')"></div>
+                                <div class="info1">
+                                    <h2>{{ d.user.get_full_name }}</h2>
+                                    <p>{{ d.mobileno }}</p>
+                                    <p>{{ d.user.email }}</p>
                                 </div>
                             </div>
-                        </div>
-
-                    {% endfor %}
-
+                        {% endfor %}
+                    </div>
                 </div>
+
+                {##}
+                {#                <div class="row justify-content-center">#}
+                {#                    {% for d in data %}#}
+                {##}
+                {#                        <div class="col-sm-6 col-lg-4">#}
+                {#                            <div class="card clean-card text-center">#}
+                {#                                <img class="card-img-top w-100 d-block image" src="{{ d.profile_pic }}">#}
+                {#                                <div class="card-body info">#}
+                {#                                    <h4 class="card-title">{{ d.user.get_full_name }}</h4>#}
+                {#                                    <p class="card-text">{{ d.mobileno }}<br>{{ d.user.email }}</p>#}
+                {#                                    <div class="icons">#}
+                {#                                        <a href="{{ d.profile_pic }}"> <i class="icon-social-facebook"></i></a>#}
+                {#                                        <a href="{{ d.profile_pic }}"><i class="icon-social-instagram"></i></a>#}
+                {#                                        <a href="{{ d.profile_pic }}"><i class="icon-social-github"></i></a>#}
+                {#                                    </div>#}
+                {#                                </div>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {##}
+                {#                    {% endfor %}#}
+
+                <svg>
+                    <filter id="wavy1">
+                        <feturbulence x="0" y="0" baseFrequency="0.2" numOctaves="5" seed="1"></feturbulence>
+                        <feDisplacementMap in="SourceGraphic" scale="20" in2=""></feDisplacementMap>
+                    </filter>
+                </svg>
+                <svg>
+                    <filter id="wavy2">
+                        <feturbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feturbulence>
+                        <feDisplacementMap in="SourceGraphic" scale="20"/>
+                    </filter>
+                </svg>
+                <svg>
+                    <filter id="wavy3">
+                        <feturbulence x="0" y="0" baseFrequency="0.1" numOctaves="5" seed="2"></feturbulence>
+                        <feDisplacementMap in="SourceGraphic" scale="20"/>
+                    </filter>
+                </svg>
+                {#                </div>#}
             </div>
         </section>
     </main>
+
 {% endblock %}
 {% block footer %}
     {% include 'footer.html' %}
 {% endblock %}
 {% block body_script %}
 {% endblock %}
+
+
+
+
+
+{#<!doctype html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport"#}
+{#          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">#}
+{#    <meta http-equiv="X-UA-Compatible" content="ie=edge">#}
+{#    <title>Document</title>#}
+{#    <style>* {#}
+{#        box-sizing: border-box;#}
+{#        margin: 0;#}
+{#        padding: 0;#}
+{#    }#}
+{##}
+{#    body {#}
+{#        font-family: Verdana, Geneva, Tahoma, sans-serif;#}
+{#        display: flex;#}
+{#        justify-content: center;#}
+{#        align-items: center;#}
+{#        min-height: 100vh;#}
+{#        background: #f4f4f4;#}
+{#        padding: 20px;#}
+{#    }#}
+{##}
+{#    .container {#}
+{#        display: flex;#}
+{#        justify-content: center;#}
+{#        align-items: center;#}
+{#        flex-wrap: wrap;#}
+{#    }#}
+{##}
+{#    .container .card {#}
+{#        position: relative;#}
+{#        width: 280px;#}
+{#        height: 350px;#}
+{#        margin: 30px;#}
+{#    }#}
+{##}
+{#    .container .card:nth-of-type(2) {#}
+{#        transform: rotate(5deg);#}
+{#    }#}
+{##}
+{#    .container .card .image {#}
+{#        position: relative;#}
+{#        width: 100%;#}
+{#        height: 100%;#}
+{#        background-size: cover;#}
+{#        transform: translate(10px, 10px);#}
+{#    }#}
+{##}
+{#    .container .card:before {#}
+{#        content: "";#}
+{#        position: absolute;#}
+{#        top: 0;#}
+{#        left: 0;#}
+{#        width: 255px;#}
+{#        height: 325px;#}
+{#        border: 25px solid #fff;#}
+{#        z-index: 1;#}
+{#        background: linear-gradient(145deg, #ffffff, #e6e6e6);#}
+{#        box-shadow: 7px 7px 21px #bdbdbd, -7px -7px 21px #ffffff;#}
+{#        background: transparent;#}
+{#    }#}
+{##}
+{#    .container .card:nth-of-type(1)::before {#}
+{#        filter: url(#wavy1);#}
+{#    }#}
+{##}
+{#    .container .card:nth-of-type(2)::before {#}
+{#        filter: url(#wavy2);#}
+{#    }#}
+{##}
+{#    .container .card:nth-of-type(3)::before {#}
+{#        filter: url(#wavy3);#}
+{#    }#}
+{##}
+{#    .image1 {#}
+{#        background-image: url("https://res.cloudinary.com/dswp5qfpm/image/upload/v1597476074/animal/rabbit_vq9gli.jpg");#}
+{#    }#}
+{##}
+{#    .image2 {#}
+{#        background-image: url("https://res.cloudinary.com/dswp5qfpm/image/upload/v1597476033/animal/cat_hfwcwm.jpg");#}
+{#    }#}
+{##}
+{#    .image3 {#}
+{#        background-image: url("https://res.cloudinary.com/dswp5qfpm/image/upload/v1597476068/animal/parrot_rjd1vq.jpg");#}
+{#    }#}
+{##}
+{#    svg {#}
+{#        width: 0;#}
+{#        height: 0;#}
+{#    }#}
+{##}
+{#    .container .card .info {#}
+{#        position: absolute;#}
+{#        top: 0;#}
+{#        left: 0;#}
+{#        width: 100%;#}
+{#        height: 100%;#}
+{#        padding: 50px 30px 30px 30px;#}
+{#        transform: translate(10px, 10px);#}
+{#        text-align: center;#}
+{#        background-color: rgba(0, 0, 0, 0.5);#}
+{#        color: #fff;#}
+{#        line-height: 1.4;#}
+{#        font-size: 20px;#}
+{#        opacity: 0;#}
+{#        transition-duration: 1s;#}
+{#    }#}
+{##}
+{#    .container .card:hover .info {#}
+{#        opacity: 1;#}
+{#    }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{#<div class="container">#}
+{#    <div class="card">#}
+{#        <div class="image image1"></div>#}
+{#        <div class="info">#}
+{#            <h2>About me</h2>#}
+{#            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Possimus libero voluptatum sit! Sequi facere in#}
+{#                tempora quibusdam mollitia provident aut?</p>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="card">#}
+{#        <div class="image image2"></div>#}
+{#    </div>#}
+{#    <div class="card">#}
+{#        <div class="image image3"></div>#}
+{#    </div>#}
+{#</div>#}
+{#<svg>#}
+{#    <filter id="wavy1">#}
+{#        <feturbulence x="0" y="0" baseFrequency="0.2" numOctaves="5" seed="1"></feturbulence>#}
+{#        <feDisplacementMap in="SourceGraphic" scale="20"/>#}
+{#    </filter>#}
+{#</svg>#}
+{#<svg>#}
+{#    <filter id="wavy2">#}
+{#        <feturbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feturbulence>#}
+{#        <feDisplacementMap in="SourceGraphic" scale="20"/>#}
+{#    </filter>#}
+{#</svg>#}
+{#<svg>#}
+{#    <filter id="wavy3">#}
+{#        <feturbulence x="0" y="0" baseFrequency="0.1" numOctaves="5" seed="2"></feturbulence>#}
+{#        <feDisplacementMap in="SourceGraphic" scale="20"/>#}
+{#    </filter>#}
+{#</svg>#}
+{#</body>#}
+{#</html>#}
