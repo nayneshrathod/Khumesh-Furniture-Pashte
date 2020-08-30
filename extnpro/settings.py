@@ -51,24 +51,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'extnpro.wsgi.application'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ddp3ac7r965h6t',
-        'USER': 'odmuhwgexwgxgg',
-        'PASSWORD': '03fb6b3a08127f5dd3fa7464f37f6d1cc9fd464d414f90db53d74c8959301f5c',
-        'HOST': 'ec2-18-211-48-247.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+#
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'ddp3ac7r965h6t',
+#         'USER': 'odmuhwgexwgxgg',
+#         'PASSWORD': '03fb6b3a08127f5dd3fa7464f37f6d1cc9fd464d414f90db53d74c8959301f5c',
+#         'HOST': 'ec2-18-211-48-247.compute-1.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',

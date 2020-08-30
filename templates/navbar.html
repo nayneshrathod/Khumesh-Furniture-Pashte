@@ -27,7 +27,11 @@
                     <li class="nav-item " role="presentation">
                         <a class="nav-link {{ dashboard_active }}" href="{% url 'show' %}">Dashboard</a>
                     </li>
-                    <li class="nav-item " role="presentation">
+                    <li class="nav-item" role="presentation">
+                        {#<form action="{% url  'logout' %}" method="POST">#}
+                        {#{% csrf_token %}#}
+                        {#<input class="nav-link {{ logout_active }}" type="submit" value="Logout ( {{ user.get_short_name }} )"/>#}
+                        {# </form>#}
                         <a class="nav-link {{ logout_active }}" href="{% url 'logout' %}">Logout
                             ( {{ user.get_short_name }} )</a>
                     </li>
